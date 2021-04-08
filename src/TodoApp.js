@@ -17,9 +17,9 @@ import TodoForm from "./TodoForm";
  */
 
 function TodoApp({ initialTodos }) {
-  const [todos, setTodos] = useState([
-    ...initialTodos
-  ])
+  const [todos, setTodos] = useState(initialTodos)
+
+  console.log(todos);
 
   /** add a new todo to list */
   function create(newTodo) {
@@ -32,9 +32,9 @@ function TodoApp({ initialTodos }) {
   function update(updatedTodo) {
     setTodos(todos.map(t => {
       if (t.id === updatedTodo.id) {
-        return updatedTodo
+        return updatedTodo;
       }
-      return t
+      return t;
     }))
   }
 
@@ -48,17 +48,18 @@ function TodoApp({ initialTodos }) {
       <div className="row">
 
         <div className="col-md-6">
-          <EditableTodoList /> OR
-            <span className="text-muted">You have no todos.</span>
+          {todos.length > 0  
+            ? (<EditableTodoList todos={todos} remove={remove} update={update} />)
+            : (<span className="text-muted">You have no todos.</span>)}
         </div>
 
         <div className="col-md-6">
-          {todos && 
+          {todos.length > 0 && 
             <section className="mb-4">
             <h3>Top Todo</h3>
-            <TopTodo />
-          </section>
-          }     
+            <TopTodo todos={todos} />
+            </section>}
+          
           <section>
             <h3 className="mb-3">Add Nü</h3>
               <TodoForm handleSave={create}/>
